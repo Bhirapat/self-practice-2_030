@@ -1,0 +1,58 @@
+Progression Summary (Week 6–10)
+สรุปภาพรวมการเรียนและแบบฝึกหัด (INT150 / Web Technology)
+
+
+Week 6 — JavaScript Functions & Higher-Order Function (HOF)
+
+- เรียนเรื่องฟังก์ชันพื้นฐาน การรับค่าและส่งค่า return
+- ทำความเข้าใจ pure function (ไม่มี side effect)
+- ฝึกเขียน Higher-Order Function เช่น ฟังก์ชันที่รับฟังก์ชันอื่นเป็นพารามิเตอร์
+- โจทย์ฝึก: สร้าง greetUser(name, formatter) ที่เปลี่ยนรูปแบบการทักทายได้ เช่น toUpper, toLower, reverseText, emojiFormat
+- จุดเน้น: เข้าใจแนวคิด function เป็น first-class citizen และ closure เบื้องต้น
+
+
+Week 7 — DOM (Document Object Model)
+
+- เรียนการเข้าถึงและแก้ไข Element ในหน้าเว็บด้วย JavaScript
+- ใช้คำสั่ง: getElementById(), querySelector(), querySelectorAll(), childNodes, children, parentNode
+- ฝึกสร้างและลบ Element ด้วย createElement(), appendChild(), removeChild(), insertBefore(), replaceChild()
+- โจทย์ฝึก: เปลี่ยนสีพื้นหลังของ <div> เมื่อกดปุ่ม, เพิ่ม/ลบ class, ใช้ dataset (data-color)
+- จุดเน้น: เข้าใจโครงสร้าง DOM tree และการ traverse node (parent-child-sibling)
+
+
+Week 8 — Window Object & User Interaction
+
+- เรียนเกี่ยวกับ window object และกล่องโต้ตอบพื้นฐาน: alert(), prompt(), confirm()
+- ใช้เงื่อนไข if-else ตรวจสอบข้อมูลจากผู้ใช้
+- โจทย์ฝึก: ให้ผู้ใช้พิมพ์ชื่อ แล้วยืนยันด้วย confirm() จากนั้นแสดงผลใน alert()
+- จุดเน้น: ฝึกเขียนโค้ดที่มีการโต้ตอบกับผู้ใช้และตรวจสอบ input ก่อนแสดงผล
+
+
+Week 9 — Event Listener & Keyboard Event
+
+- เรียนการจัดการเหตุการณ์ (Event) เช่น click, keydown, keyup
+- ใช้ addEventListener() ผูกฟังก์ชันเข้ากับ Element
+- เข้าใจ event object เช่น target, currentTarget, eventPhase
+- ฝึกสร้าง Element ใหม่เมื่อผู้ใช้พิมพ์หรือคลิก เช่น เพิ่ม <p> ทุกครั้งที่กด Enter
+- โจทย์ฝึก: เมื่อกดปุ่ม “ส่งข้อความ” ให้แสดงข้อความใน <div> หรือ เมื่อกด Enter ให้ข้อความแสดงบนจอ
+- จุดเน้น: เข้าใจ flow ของ event และ event bubbling/capturing
+
+
+Week 10 — Event Propagation & Form Handling
+
+- ต่อจากสัปดาห์ที่ 9: ฝึก event bubbling & capturing
+- เรียนการหยุดการส่งต่อ event ด้วย stopPropagation()
+- ฝึกอ่านค่าจากฟอร์ม เช่น input, select, checkbox
+- โจทย์ฝึก: แบบฟอร์มกรอกข้อมูลและกด Submit ให้แสดงข้อมูลใน console หรือในหน้าเว็บ
+- จุดเน้น: เชื่อม event กับ DOM element หลายชั้นและฝึกทำเว็บที่รับข้อมูลจริงจากผู้ใช้
+
+
+ภาพรวมสัปดาห์ 6–10
+
+Week 6 – Function / HOF
+Week 7 – DOM Structure / Node Traversal
+Week 8 – Window Object / prompt-confirm-alert
+Week 9 – Event Listener / Keyboard Interaction
+Week 10 – Form & Event Propagation
+
+โดยรวม: เข้าใจการเชื่อมต่อระหว่าง JavaScript กับ DOM เพื่อสร้างเว็บแบบ Interactive ที่ตอบสนองต่อผู้ใช้ได้จริง

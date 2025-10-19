@@ -31,7 +31,7 @@ const divChildren = divElement.childNodes
 console.log(divChildNodes.length)
 Array.from(divChildren).forEach((child) => console.log(child))
 
-const divElement = document.getElementById('123')
+const divlement = document.getElementById('123')
 //get all attributes on div id ='123'
 const divAttrs = divChildNodes.Element.attributes
 console.log(divAttrs.length)
