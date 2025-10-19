@@ -1,0 +1,65 @@
+const meatElement = document.querySelector('.meat')   // หา .meat ตัวแรกในเอกสาร
+console.log(meatElement)                              // ดู element ที่เจอ (เช่น <li class="meat">Chicken Wings</li>)
+
+// ถ้าอยากได้ทุกตัว ใช้ querySelectorAll (ได้ NodeList)
+const meatAllElement = document.querySelectorAll('.meat')  // ดึง .meat ทุกตัวเป็น NodeList
+meatAllElement.forEach((ele) => console.log(ele))          // วนแสดงทีละตัว
+console.log(meatAllElement)                                // ดู NodeList ทั้งก้อน
+
+// 2 หา .meat ที่มีคำว่า "soup" (ไม่สนตัวพิมพ์ใหญ่/เล็ก)
+const meatsoupElement = document.querySelectorAll(".meat")  // เอา .meat มาทุกตัวก่อน
+meatsoupElement.forEach((ele) =>{
+  if (ele.textContent.toLowerCase().includes("soup")) {     // เช็คข้อความภายในมี "soup" ไหม
+    console.log(ele)                                        // ถ้ามีก็แสดงออกมา
+  }
+});
+
+
+// 3 เริ่มจากลูกคนแรกใต้ <ul id="soup"> แล้วไล่พี่น้องถัดไปทั้งหมด
+const firstSoupElement = document.querySelector("#soup").firstElementChild  // ลูกตัวแรก (เป็น Element เท่านั้น)
+let sibling = firstSoupElement
+while (sibling) {                                  // วนจนกว่าจะหมด
+  console.log(sibling)                             // แสดงพี่น้องปัจจุบัน
+  sibling = sibling.nextElementSibling             // ขยับไปตัวถัดไป (Element เท่านั้น)
+}
+
+
+// หา element ตัวแรกที่ตรง #appetizer หรือ #soup (ตัวไหนเจอก่อนคืนตัวนั้น)
+const meatappetizer_soup_Element = document.querySelector('#appetizer, #soup')
+console.log(meatappetizer_soup_Element)
+
+// หา .meat เฉพาะที่อยู่ใต้ #appetizer หรือ #soup เท่านั้น
+const meatAllElementunder_app_soup = document.querySelectorAll('#appetizer .meat, #soup .meat')
+meatAllElementunder_app_soup.forEach((ele) => console.log(ele))  // วนโชว์ทุกตัวที่เจอ
+console.log(meatAllElementunder_app_soup)                        // ดู NodeList รวม
+
+// insertBefore / replaceChild / removeChild คือ API ของ parent สำหรับแทรก/แทนที่/ลบลูก
+/* โครงสร้างตัวอย่าง:
+<ul id="soup">
+  <li class="meat">Spicy Bacon-Corn Soup</li>
+  <!-- 2. remove Vegetable Soup -->
+  <li class="vegan">Vegetable Soup</li>
+  <!-- 1. <li class="vegan">Cabbage Soup</li> -->
+  <li class="meat">Beef Soup</li>
+  <!-- 3. replace Beef Soup with Pork Soup -->
+  <li class="vegan">Coconut Soup</li>
+</ul> */
+
+// (insertBefore) แทรก <li class="vegan">Cabbage Soup</li> ก่อน "Beef Soup"
+// 1 อ้างถึง parent: <ul id="soup">
+const soupUlElement = document.getElementById("soup")
+
+// 2 หา ref node = li ที่มีคำว่า "Beef Soup"
+let refNode = null
+Array.from(soupUlElement.children).forEach((element) => {
+  if (element.textContent.trim().includes("Beef Soup")) refNode = element
+})
+
+// 3 สร้าง node ใหม่ <li class="vegan">Cabbage Soup</li>
+const newNode = document.createElement("li")
+newNode.textContent = "Cabbage Soup"
+newNode.setAttribute("class", "vegan")
+
+// 4 แทรกก่อน refNode
+soupUlElement.insertBefore(newNode, refNode)  // ผล: Cabbage Soup จะไปอยู่หน้าบรรทัด Beef Soup
+

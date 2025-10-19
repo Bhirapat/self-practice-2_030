@@ -1,0 +1,122 @@
+// เขียน function ที่ greet เป็น format อื่นที่ไม่ซ้ำกับอาจารย์
+// ใช้ higher order function จัด format เอาเข้าใจง่ายๆไม่ยากไปเผื่อโดนถาม
+
+const greet = (name, formatter) => formatter(name)           // HOF: รับชื่อ + ฟังก์ชัน formatter แล้วคืนค่าที่ formatter ประมวลผล
+const speak = Text => Text.toLowerCase() + '!!!'             // formatter: แปลงเป็นตัวเล็กทั้งหมด + ต่อท้าย !!!
+const whisper = text => text.toLowerCase() + '...'           // formatter: แปลงเป็นตัวเล็กทั้งหมด + ต่อท้าย ...
+
+//pure function                                              // หมายเหตุส่วนหัวข้อ: ฟังก์ชันที่ไม่มี side-effect และอินพุตเท่าเดิมให้ผลเท่าเดิม
+
+
+//Ex higher order Function                                   // ตัวอย่าง HOF/การคืนค่าฟังก์ชัน
+function a() {                                               // ประกาศฟังก์ชัน a
+    return sum                                               // คืน "ตัวฟังก์ชัน sum" (reference) ไม่ได้เรียกใช้
+}
+
+function b(){                                                // ประกาศฟังก์ชัน b
+    return sum(1,5)                                          // เรียก sum ด้วย 1 และ 5 แล้วคืนผลรวม (6)
+}
+function c(x){                                               // ประกาศฟังก์ชัน c รับพารามิเตอร์ x
+    return x                                                 // คืน x ตามเดิม (ถ้า x เป็นฟังก์ชัน ก็คืนฟังก์ชันนั้น)
+}
+function sum(num1,num2){                                     // ประกาศฟังก์ชัน sum มี num1,num2
+    return num1 + num2                                       // คืนผลบวกของ num1 กับ num2
+}
+
+console.log(typeof a())                                      // a() คืนตัวฟังก์ชัน sum → typeof เป็น "function"
+console.log(typeof b())                                      // b() คืนค่าตัวเลข 6 → typeof เป็น "number"
+console.log(typeof c(sum))                                   // c(sum) คืนตัวฟังก์ชัน sum → typeof เป็น "function"
+
+//
+let a = 1 //global scope                                     // ประกาศตัวแปร a ในสโคปภายนอก ค่าเริ่มต้น 1
+function doSomething(x) {                                    // ประกาศฟังก์ชัน doSomething รับ x
+  let a = 10 //local scope                                   // a ใหม่ในสโคปฟังก์ชัน (shadow ตัวแปร a ภายนอก)
+  let greet = "Hello"                                        // สตริงสำหรับทักทาย
+  function echo() {                                          // ฟังก์ชันซ้อน (มีสโคปภายใน doSomething)
+    let a = 555                                              // a ในสโคป echo (shadow ซ้ำอีกชั้น)
+    let b = "Bob"                                            // ตัวแปร b เป็นสตริง
+    console.log(a, b)                                        // แสดง "555 Bob"
+  }
+  return `${greet}, ${x}, a=${a}`                            // คืนสตริงรวม greet, x, a ของสโคปปัจจุบัน
+}
+console.log(doSomething("guest"))                            // เรียกด้วย "guest" → "Hello, guest, a=10"
+a = 100                                                      // เปลี่ยนค่า a ในสโคปภายนอกเป็น 100
+console.log(`a= ${a}`)                                       // แสดง "a= 100"
+console.log(doSomething(echo()))                             // ⚠ จะเกิด ReferenceError: echo ไม่อยู่ในสโคป ณ จุดนี้
+
+//                                                           // เส้นแบ่งเพื่อแยกตัวอย่างถัดไป
+
+
+
+function doSomething(x) {                                    // ประกาศ doSomething ทับนิยามก่อนหน้า (ชื่อซ้ำได้ ตัวเดิมถูกบัง)
+  function echo() {                                          // ฟังก์ชันภายในชื่อ echo
+    return `hello, ${x}`                                     // ใช้ค่า x จากสโคปปิด (closure) แล้วคืนสตริงทักทาย
+  }
+  return echo                                                // คืน "ตัวฟังก์ชัน echo" (ยังไม่เรียก)
+}
+
+console.log(doSomething("guest")()) //console.log(echo()) เรียก echo ซ้อนกัน 
+// doSomething("guest") คืนฟังก์ชัน echo ออกมา → วงเล็บ () ด้านหลังเรียก echo ทันที → ได้ "hello, guest"
+// ส่วน comment เทียบกับ console.log(echo()) จะ error ถ้า echo ไม่ได้อยู่ในสโคปนี้
+
+//Closure : 
+function counter() {                                         // ฟังก์ชันโรงงานสร้างตัวนับ (แสดงแนวคิด closure)
+  let count = 0                                              // สถานะภายใน (private) เริ่ม 0
+  function increment() {                                     // ฟังก์ชันเพิ่มค่า
+    return ++count                                           // เพิ่มก่อนแล้วคืนค่าใหม่
+  }
+  function decrement() {                                     // ฟังก์ชันลดค่า
+    return --count                                           // ลดก่อนแล้วคืนค่าใหม่
+  }
+  function getCount() {                                      // ฟังก์ชันอ่านค่า
+    return count                                             // คืนค่าปัจจุบันของ count
+  }
+  return {                                                   // คืนเฉพาะเมธอดที่อนุญาตให้ใช้งานจากภายนอก
+    add: increment,                                          // เมธอด add อ้างถึง increment
+    decrese: decrement,                                      // เมธอด decrese (สะกดตามโค้ด) อ้างถึง decrement
+    getCountValue: getCount,                                 // เมธอด getCountValue อ้างถึง getCount
+  }
+}
+const { add, getCountValue } = counter()                     // สร้างอินสแตนซ์ตัวนับ แล้วดึง add กับ getCountValue ออกมาใช้
+console.log(add())                                           // เรียก add() ครั้งแรก → 1
+console.log(getCountValue())                                 // อ่านค่าปัจจุบัน → 1
+// const c = counter()                                       // ตัวอย่างอีกแบบ (คอมเมนต์ไว้)
+// console.log(c.increment()) //1                            // 1
+// console.log(c.increment()) //2                            // 2
+// console.log(c.decrement()) //1                            // 1
+// console.log(c.getCount()) //1                             // 1
+
+//Excercise
+function idGenerator(){                                      // ฟังก์ชันสร้างตัวสร้าง id (closure เก็บ count)
+let count = 0                                                // เริ่ม count ที่ 0
+return function (){                                          // คืนฟังก์ชันไม่มีชื่อที่ยังจำ count ได้
+    count ++                                                 // เพิ่มทีละ 1 ทุกครั้งที่เรียก
+    return count                                             // คืนค่า count หลังเพิ่ม (1,2,3,...)
+}
+}
+const idGen = idGenerator()                                  // สร้างตัวสร้าง id หนึ่งชุด
+console.log(idGen())                                         // 1
+console.log(idGen())                                         // 2
+console.log(idGen())                                         // 3
+
+
+
+//เสริม ข้อที่ทำเอง ผ่าน HOF ย้อนหลัง
+
+// ฟังก์ชันหลัก (Higher-Order Function)
+function greetUser(name, formatter) {                        // HOF: รับ name + formatter (ฟังก์ชันจัดรูปแบบ)
+  const message = `Hello, ${name}!`                          // สร้างข้อความพื้นฐาน
+  return formatter(message) // เรียกใช้ฟังก์ชัน formatter ที่ส่งเข้ามา  // ส่ง message ให้ formatter แล้วคืนค่าที่ถูกจัดรูปแบบ
+}
+
+// 1. แปลงข้อความให้เป็นตัวพิมพ์ใหญ่ทั้งหมด
+const toUpper = (text) => text.toUpperCase()                 // helper: แปลงเป็นตัวใหญ่ทั้งหมด
+
+// 2. แปลงข้อความให้เป็นตัวพิมพ์เล็กทั้งหมด
+const toLower = (text) => text.toLowerCase()                 // helper: แปลงเป็นตัวเล็กทั้งหมด
+
+// 3. กลับข้อความจากหลังมาหน้า
+const reverseText = (text) => text.split('').reverse().join('') // helper: split เป็นตัวอักษร → reverse → join กลับเป็นสตริง
+
+// 4. ใส่อีโมจิข้างหน้าและข้างหลัง (format ใหม่ไม่ซ้ำอาจารย์)
+const emojiFormat = (text) => `${text} `                     // helper: ตอนนี้แค่เพิ่มช่องว่างท้ายข้อความ (ถ้าต้องการอีโมจิจริง แนะนำเช่น `✨ ${text} ✨`)

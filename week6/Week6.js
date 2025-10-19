@@ -96,3 +96,25 @@ const idGen = idGenerator()
 console.log(idGen())
 console.log(idGen())
 console.log(idGen())
+
+
+
+//เสริม ข้อที่ทำเอง ผ่าน HOF ย้อนหลัง
+
+// ฟังก์ชันหลัก (Higher-Order Function)
+function greetUser(name, formatter) {
+  const message = `Hello, ${name}!`
+  return formatter(message) // เรียกใช้ฟังก์ชัน formatter ที่ส่งเข้ามา
+}
+
+// 1. แปลงข้อความให้เป็นตัวพิมพ์ใหญ่ทั้งหมด
+const toUpper = (text) => text.toUpperCase()
+
+// 2. แปลงข้อความให้เป็นตัวพิมพ์เล็กทั้งหมด
+const toLower = (text) => text.toLowerCase()
+
+// 3. กลับข้อความจากหลังมาหน้า
+const reverseText = (text) => text.split('').reverse().join('')
+
+// 4. ใส่อีโมจิข้างหน้าและข้างหลัง (format ใหม่ไม่ซ้ำอาจารย์)
+const emojiFormat = (text) => `${text} `

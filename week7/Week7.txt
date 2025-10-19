@@ -1,0 +1,88 @@
+console.log(window.document) // แสดง object document ผ่าน window (root node)
+console.log(document)        // document คือ root node ของหน้าเว็บ
+console.log(typeof document) // ชนิดข้อมูลเป็น "object"
+
+console.log(document.getElementById("123")) 
+// ดึง element ที่มี id="123" ถ้าไม่มีจะได้ null
+
+const htmlElement = document.documentElement
+console.log(htmlElement)     // แสดง <html> ทั้งแท็ก
+
+console.log(htmlElement.parentElement) // null เพราะ <html> ไม่มี parent element
+console.log(htmlElement.parentNode)    // แสดง root node (document)
+
+if (htmlElement.parentNode === document) {
+  console.log("parent of html is a root node") // ตรวจสอบว่า parentNode ของ html คือ document จริง
+}
+
+console.log(document.firstChild)                // แสดง <!DOCTYPE html>
+console.log(document.firstChild.nextSibling)    // node ถัดจาก DOCTYPE (เช่น comment)
+console.log(document.firstChild.previousSibling)// null เพราะไม่มี node ก่อนหน้า
+console.log(document.firstElementChild)         // <html>
+console.log(document.firstElementChild.previousSibling) // comment ก่อนหน้า html
+console.log(document.lastChild)                 // comment ตัวสุดท้าย
+console.log(document.lastElementChild)          // <html lang="en">
+
+// ------------------------------
+// 1. เข้าถึงลูกของ <div id='123'>
+const divElement = document.getElementById('123')
+
+// 2. ดูทุก node type ใต้ div
+const divChildNodes = divElement.childNodes // NodeList ที่รวมทั้ง text, comment, element
+console.log(divChildNodes.length)           // จำนวนลูกทั้งหมด
+divChildNodes.forEach((child) => console.log(child)) // แสดงแต่ละ node
+
+// 3. ถ้าต้องการเฉพาะ element (tag)
+const divChildren = divElement.children
+console.log(divChildren.length)             // จำนวนเฉพาะ element node
+Array.from(divChildren).forEach((child) => console.log(child)) // แสดงทุก element
+
+// ------------------------------
+// ดึง attributes ของ div
+const divAttrs = divElement.attributes
+console.log(divAttrs.length)                // จำนวน attributes ใน div
+
+for(let i = 0; i < divAttrs.length; i++) {
+  const attrName = divAttrs[i].name
+  const attrValue = divAttrs[i].value
+  console.log(`attribute name: ${attrName}, value: ${attrValue}`)
+}
+
+// ------------------------------
+// ตรวจสอบชนิด node
+console.log(document.firstChild.nodeType) 
+// nodeType ของ <!DOCTYPE html> คือ 10
+
+if (document.firstChild.nodeType === 1) {
+  console.log("Hello HTML node")
+} else {
+  console.log("Hello any node") // แสดงข้อความนี้เพราะ nodeType ไม่ใช่ 1 (1 คือ element)
+}
+
+// ------------------------------
+// สร้าง element ใหม่และเพิ่มใน <div id="demo">
+let el = document.getElementById("demo");
+
+// สร้าง <p> แบบใช้ innerHTML (อ่าน tag ได้)
+const p1 = document.createElement("p");
+p1.innerHTML = "<i>Sample Italic Text</i>"; // ตัวอักษรเอียงจริง
+p1.setAttribute("method", "innerHTML");
+el.appendChild(p1);
+
+// สร้าง <p> แบบใช้ innerText (อ่าน tag เป็นข้อความ)
+const p2 = document.createElement("p");
+p2.innerText = "<i>Sample Italic Text</i>"; // จะเห็น <i> เป็นตัวอักษรธรรมดา
+p2.setAttribute("method", "innerText");
+el.appendChild(p2);
+
+// สร้าง <p> แบบใช้ textContent (คล้าย innerText)
+const p3 = document.createElement("p");
+p3.textContent = "<i>Sample Italic Text</i>"; // แสดง <i> เป็นข้อความ
+p3.setAttribute("method", "textContent");
+el.appendChild(p3);
+
+// เพิ่ม <p> พร้อม attribute อื่น
+const p = document.createElement("p");
+p.setAttribute("format", "italic");
+p.textContent = "Paragraph with format='italic' attribute";
+el.appendChild(p);

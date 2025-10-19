@@ -1,0 +1,54 @@
+//ทวน week 8 ช่วงท้าย
+const yourName = prompt("What is oyur name ?","typing your name ...")  // เปิดกล่อง prompt ถามชื่อ (มีสะกดผิด oyur → your)
+console.log(yourName)                                                  // แสดงค่าที่ผู้ใช้พิมพ์ (หรือ null ถ้ากด Cancel)
+
+if(yourName?.trim().length!==0 && yourName?.trim()!==null)            // เช็กว่าไม่ใช่สตริงว่าง (เช็ก null ตรงนี้ไม่จำเป็น/ไม่ถูก)
+{                                                                      // เปิดบล็อก if
+nameconfirm =confirm(`Are you ${yourName}`)                            // (ประกาศตัวแปรไม่ครบ) เปิดกล่อง confirm ถามยืนยันชื่อ
+}                                                                      // ปิดบล็อก if
+nameconfirm ? alert(`Hello, ${yourName}`)                              // ถ้า nameconfirm เป็นจริง → alert ทักชื่อ
+: alert ('Hello, Guest')                                               // ถ้าไม่ใช่ → alert ว่า Guest
+
+const submitButton=document.querySelector("button")                    // เลือกปุ่มตัวแรกในหน้า
+submitButton.addEventListener                                          // เรียกใช้ addEventListener (ขึ้นบรรทัดใหม่ต่อ)
+('click', (event)=>{                                                   // ผูกเหตุการณ์คลิกกับปุ่ม; รับออบเจ็กต์ event
+    console.log(event.target.id)                                       // id ของสิ่งที่ถูกคลิกจริง ๆ
+    console.log(event.target.nodeName)                                 // ชื่อโหนด (เช่น "BUTTON")
+    console.log(event.target.nodeType)                                 // ประเภทโหนด (1 = ELEMENT_NODE)
+    console.log(event.target.nodeValue)                                // ค่าของโหนด (มักเป็น null สำหรับ element)
+    console.log(event.target.parentElement)                            // element พ่อของ target
+    console.log(event.currentTarget)                                   // ตัวที่ผูก event listener (ที่นี่คือ submitButton)
+    console.log(event.eventPhase)                                      // เฟสของอีเวนต์ (1=Capturing,2=At target,3=Bubbling)
+    console.log("Click button was clicked !")                          // ข้อความบอกว่าปุ่มถูกคลิก
+                                                                     // ปิด callback
+})
+const divElement = document.querySelector("div")                       // เลือก <div> ตัวแรกในหน้า
+divElement.addEventListener("click",() => {                            // ผูกเหตุการณ์คลิกกับ div
+    console.log("Div was clicked !")                                   // เมื่อคลิก div ให้พิมพ์ข้อความนี้
+},                                                                      // อาร์กิวเมนต์ตัวที่สาม (options) เว้นว่าง = ค่าเริ่มต้น (bubbling)
+)                                                                       // ปิดวงเล็บ addEventListener
+
+('click', ()=>{                                                         
+    console.log("Click button was clicked !")                          
+})                                                                      
+
+const bodyElement = document.body                                      // อ้างถึง <body> ของเอกสาร
+body.divElement.addEventListener("click", (event)=>{                    
+    console.log(event.target)                                          // โหนดที่ถูกคลิกจริง ๆ
+    console.log(event.currentTarget)                                   // ตัวที่รับฟัง event (ถ้าถูกต้องควรเป็น body)
+    console.log(event.eventPhase)                                      // เฟสของอีเวนต์ตอนที่ callback ถูกเรียก
+})
+
+const inputMessage = document.querySelector('#keyInput')               // เลือกช่อง input ด้วย id="keyInput"
+const display = document.querySelector('#keyLog')                      // เลือก container แสดงล็อกปุ่มกด ด้วย id="keyLog"
+
+inputMessage.addEventListener('keydown', (event) => {                  // ผูกเหตุการณ์ keydown ที่ input
+  const p = document.createElement('p')                                // สร้าง <p> ใหม่
+  p.textContent = `You pressed: ${event.key}`                          // ใส่ข้อความว่ากดปุ่มอะไร
+
+  if (event.key === 'Enter') {                                         // ถ้ากด Enter
+    p.style.color = 'blue'                                             // เปลี่ยนสีข้อความเป็นน้ำเงิน
+  }
+
+  display.appendChild(p)                                               // เพิ่ม <p> ไปท้าย container แสดงผล
+})
